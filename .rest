@@ -1,0 +1,19 @@
+
+GET http://localhost:3030/login
+
+###
+GET http://localhost:3030/books
+
+
+
+###
+POST http://localhost:3030
+HEAD 
+ {
+    "title": "Woman",
+    "author": "No name",
+    "genre": "Romance"
+  }
+
+
+###
