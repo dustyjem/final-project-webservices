@@ -6,7 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');
 const { authorizer } = require('./auth');
 const app = express();
-const port = 8080;
+const port = 3030;
 const { auth } = require('express-openid-connect');
 
 app.use(bodyParser.json());
