@@ -1,9 +1,12 @@
-const db = require('../db/db');
+const { getDb } = require('../db/db');
+const mongodb = require('mongodb');
+
 
 // GET /books - Get all books
 const getAllBooks = async (req, res) => {
   try {
-    const booksCollection = db.getDb().collection('books');
+    const db = getDb();
+    const booksCollection = db.collection('books');
     const books = await booksCollection.find().toArray();
     res.json(books);
   } catch (error) {
@@ -17,7 +20,8 @@ const addBook = async (req, res) => {
   const { title, author, genre } = req.body;
 
   try {
-    const booksCollection = db.getDb().collection('books');
+    const db = getDb();
+    const booksCollection = db.collection('books');
     await booksCollection.insertOne({ title, author, genre });
     res.send('Book added successfully');
   } catch (error) {
@@ -26,37 +30,34 @@ const addBook = async (req, res) => {
   }
 };
 
-// PUT /books/:id - Update a book
-const updateBook = async (req, res) => {
-  const bookId = req.params.id;
-  const { title, author, genre } = req.body;
 
+// PUT /books/:id - Update a book
+const updateBook = async (bookId, title, author, genre) => {
   try {
-    const booksCollection = db.getDb().collection('books');
+    const db = getDb();
+    const booksCollection = db.collection('books');
     await booksCollection.updateOne(
-      { _id: bookId },
+      { _id: new mongodb.ObjectId(bookId) },
       { $set: { title, author, genre } }
     );
-    res.send('Book updated successfully');
   } catch (error) {
     console.error(error);
-    res.status(500).send('An error occurred');
+    throw error;
   }
 };
 
 // DELETE /books/:id - Delete a book
-const deleteBook = async (req, res) => {
-  const bookId = req.params.id;
-
+const deleteBook = async (bookId) => {
   try {
-    const booksCollection = db.getDb().collection('books');
-    await booksCollection.deleteOne({ _id: bookId });
-    res.send('Book deleted successfully');
+    const db = getDb();
+    const booksCollection = db.collection('books');
+    await booksCollection.deleteOne({ _id: new mongodb.ObjectId(bookId) });
   } catch (error) {
     console.error(error);
-    res.status(500).send('An error occurred');
+    throw error;
   }
 };
+
 
 module.exports = {
   getAllBooks,

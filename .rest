@@ -1,5 +1,12 @@
+###
+POST https://dev-zxwy7odiyq6on2d8.us.auth0.com
+Content-Type: application/x-www-form-urlencoded
 
-GET http://localhost:3030/login
+client_id=JWmbUdBhlbS92qcJCsENR6NEKbfMhrjU&response_type=code&redirect_uri=https://example.com/callback&scope=openid
+
+
+###
+GET http://localhost:3030/login?username=dukeokeke@gmail.com&password=Ekenedilichukwu1
 
 ###
 GET http://localhost:3030/books
@@ -7,13 +14,16 @@ GET http://localhost:3030/books
 
 
 ###
-POST http://localhost:3030
-HEAD 
- {
-    "title": "Woman",
-    "author": "No name",
-    "genre": "Romance"
-  }
+POST http://localhost:3030/books
+Content-Type: application/json
 
+{
+  "title": "War",
+  "author": "Norman John",
+  "genre": "Fiction"
+}
 
 ###
+
+GET http://localhost:3030/books
+Authorization: Bearer <gdios7RHOlY4HdQQF3sZ9p_80Lf3wE14x1IrSwo63YWmEKcdeARU9xnOqp4evECc>

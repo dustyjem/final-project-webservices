@@ -17,37 +17,38 @@ app.use((req, res, next) => {
   next();
 });
 
+// Initialize the express-openid-connect middleware
+app.use(
+  auth({
+    authRequired: false,
+    auth0Logout: true,
+    secret: process.env.SECRET,
+    baseURL: process.env.BASE_URL,
+    clientID: process.env.CLIENT_LOGIN,
+    issuerBaseURL: process.env.ISUER_URL
+  })
+);
+
 app.use('/books', routes);
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Initialize the database before starting the server
-db.initDb((err, _) => {
-  if (err) {
-    console.error('Error initializing database:', err);
-  } else {
+db.initDb()
+  .then(() => {
     console.log('Database initialized successfully');
     // Start the server after the database is initialized
     app.listen(port, () => {
       console.log(`Server listening on port ${port}`);
     });
-  }
-});
-
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: process.env.SECRET,
-  baseURL: process.env.BASE_URL,
-  clientID: process.env.CLIENT_LOGIN,
-  issuerBaseURL: process.env.ISUER_URL
-};
-
-app.use(authorizer)
+  })
+  .catch(err => {
+    console.error('Error initializing database:', err);
+  });
 
 // Use the authorizer middleware for authentication
-
+app.use(authorizer);
 
 // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
