@@ -108,9 +108,21 @@
         },
         "genre": {
           "type": "string"
+        },
+        "year": {
+          "type": "number"
+        },
+        "pages": {
+          "type": "number"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "languages": {
+          "type": "string"
         }
       },
-      "required": ["title", "author"]
+      "required": ["title", "author", "genre", "year", "pages", "publisher", "languages"]
     },
     "BookInput": {
       "type": "object",
@@ -123,9 +135,21 @@
         },
         "genre": {
           "type": "string"
+        },
+        "year": {
+          "type": "number"
+        },
+        "pages": {
+          "type": "number"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "languages": {
+          "type": "string"
         }
       },
-      "required": ["title", "author"]
+      "required": ["title", "author", "genre", "year", "pages", "publisher", "languages"]
     }
   }
 }
