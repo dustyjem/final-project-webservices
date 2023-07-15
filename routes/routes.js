@@ -21,12 +21,11 @@ router.post('/', requiresAuth(), async (req, res, next) => {
   }
 });
 
+// PUT /books/:id - Update a book
 router.put('/:id', requiresAuth(), async (req, res, next) => {
   try {
-    const bookId = req.params.id;
-    const { title, author, genre } = req.body;
-    await controller.updateBook(bookId, title, author, genre);
-    res.send('Book updated successfully');
+    const { title, author, genre, year, pages, publisher, languages } = req.body;
+    await controller.updateBook(req, res, title, author, genre, year, pages, publisher, languages);
   } catch (error) {
     next(error);
   }
@@ -36,10 +35,10 @@ router.put('/:id', requiresAuth(), async (req, res, next) => {
 router.delete('/:id', requiresAuth(), async (req, res, next) => {
   try {
     const bookId = req.params.id;
-    await controller.deleteBook(bookId);
-    res.send('Book deleted successfully');
+    await controller.deleteBook(req, res, bookId);
   } catch (error) {
     next(error);
   }
 });
+
 module.exports = router;
