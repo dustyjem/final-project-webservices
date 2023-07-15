@@ -4,7 +4,6 @@ const db = require('./db/db');
 const routes = require('./routes/routes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');
-const { authorizer } = require('./auth');
 const app = express();
 const port = 3030;
 const { auth } = require('express-openid-connect');
@@ -46,9 +45,6 @@ db.initDb()
   .catch(err => {
     console.error('Error initializing database:', err);
   });
-
-// Use the authorizer middleware for authentication
-app.use(authorizer);
 
 // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
